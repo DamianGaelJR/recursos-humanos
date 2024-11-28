@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Evaluacion;
-use App\Http\Controllers\Controller;
 use App\Models\Empleado;
 use Illuminate\Http\Request;
 
@@ -14,6 +13,7 @@ class EvaluacionController extends Controller
      */
     public function index()
     {
+        // Obtener evaluaciones con la relación de empleado
         $evaluaciones = Evaluacion::with('empleado')->get();
         return view('evaluaciones.index', compact('evaluaciones'));
     }
@@ -23,6 +23,7 @@ class EvaluacionController extends Controller
      */
     public function create()
     {
+        // Obtener todos los empleados para la creación de una nueva evaluación
         $empleados = Empleado::all();
         return view('evaluaciones.create', compact('empleados'));
     }
@@ -32,15 +33,22 @@ class EvaluacionController extends Controller
      */
     public function store(Request $request)
     {
+        // Validar los datos del formulario
         $request->validate([
-            'id_empleado' => 'required|exists:empleados,id',
+            'id_empleado' => 'required|exists:empleados,id',  // Verificar que el empleado exista
             'fecha' => 'required|date',
-            'calificacion' => 'required|integer|between:1,5',
+            'calificacion' => 'required|integer|between:1,5',  // Asegurarse de que la calificación esté entre 1 y 5
             'comentarios' => 'nullable|string',
         ]);
 
-        Evaluacion::create($request->all());
-        return redirect()->route('evaluaciones.index')->with('success', 'Evaluación registrada.');
+        try {
+            // Crear la nueva evaluación
+            Evaluacion::create($request->all());
+            return redirect()->route('evaluaciones.index')->with('success', 'Evaluación registrada exitosamente.');
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return redirect()->route('evaluaciones.index')->with('error', 'Hubo un error al registrar la evaluación.');
+        }
     }
 
     /**
@@ -48,7 +56,7 @@ class EvaluacionController extends Controller
      */
     public function show(Evaluacion $evaluacion)
     {
-        //
+        // Aquí se puede agregar código para mostrar una evaluación específica
     }
 
     /**
@@ -56,6 +64,7 @@ class EvaluacionController extends Controller
      */
     public function edit(Evaluacion $evaluacion)
     {
+        // Obtener empleados para la edición de la evaluación
         $empleados = Empleado::all();
         return view('evaluaciones.edit', compact('evaluacion', 'empleados'));
     }
@@ -65,15 +74,21 @@ class EvaluacionController extends Controller
      */
     public function update(Request $request, Evaluacion $evaluacion)
     {
+        // Validar los datos del formulario
         $request->validate([
             'fecha' => 'required|date',
             'calificacion' => 'required|integer|between:1,5',
             'comentarios' => 'nullable|string',
         ]);
 
-        $evaluacion->update($request->all());
-
-        return redirect()->route('evaluaciones.index')->with('success', 'Evaluación actualizada exitosamente.');
+        try {
+            // Actualizar la evaluación
+            $evaluacion->update($request->all());
+            return redirect()->route('evaluaciones.index')->with('success', 'Evaluación actualizada exitosamente.');
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return redirect()->route('evaluaciones.index')->with('error', 'Hubo un error al actualizar la evaluación.');
+        }
     }
 
     /**
@@ -81,7 +96,13 @@ class EvaluacionController extends Controller
      */
     public function destroy(Evaluacion $evaluacion)
     {
-        $evaluacion->delete();
-        return redirect()->route('evaluaciones.index')->with('success', 'Evaluación eliminada.');
+        try {
+            // Eliminar la evaluación
+            $evaluacion->delete();
+            return redirect()->route('evaluaciones.index')->with('success', 'Evaluación eliminada exitosamente.');
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return redirect()->route('evaluaciones.index')->with('error', 'Hubo un error al eliminar la evaluación.');
+        }
     }
 }

@@ -111,3 +111,72 @@ form .form-select {
     border: 1px solid #ddd;
     border-radius: 5px;
 }
+/*---------------------BOTONES---------------------------*/
+    /* Botones */
+    .btn-submit {
+        background-color: #1E2A47; /* Azul oscuro mate */
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-submit:hover {
+        background-color: #34495e; /* Color más oscuro para hover */
+    }
+
+    .btn-cancel {
+        background-color: #ced4da;
+        color: #495057;
+        padding: 12px 18px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-left: 1px;
+    }
+
+    .btn-cancel:hover {
+        background-color: #6c757d;
+    }
+
+    /* Animación del botón */
+    .btn-submit {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-submit::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300%;
+        height: 300%;
+        background-color: #34495e;
+        transition: all 0.5s ease;
+        border-radius: 50%;
+        transform: translate(-50%, -50%) scale(0);
+    }
+
+    .btn-submit:hover::after {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+        .form-container {
+            padding: 15px;
+        }
+
+        .form-control, .form-select {
+            padding: 10px;
+        }
+
+        .btn-submit, .btn-cancel {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+    }

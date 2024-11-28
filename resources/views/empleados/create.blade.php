@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container mt-5">
-    <h1 class="mb-4">Agregar Empleado</h1>
+    <h1 class="mb-4 text-center" style="font-weight: 600; color: #2C3E50;">Agregar Empleado</h1>
 
     @if($errors->any())
         <div class="alert alert-danger">
@@ -16,52 +16,68 @@
         </div>
     @endif
 
-    <form action="{{ route('empleados.store') }}" method="POST">
+    <form action="{{ route('empleados.store') }}" method="POST" class="form-container p-4 bg-light rounded shadow-sm">
         @csrf
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" name="nombre" id="nombre" class="form-control" value="{{ old('nombre') }}" required>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" name="nombre" id="nombre" class="form-control" value="{{ old('nombre') }}" required>
+            </div>
+            <div class="col-md-6">
+                <label for="apellido" class="form-label">Apellido</label>
+                <input type="text" name="apellido" id="apellido" class="form-control" value="{{ old('apellido') }}" required>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="apellido" class="form-label">Apellido</label>
-            <input type="text" name="apellido" id="apellido" class="form-control" value="{{ old('apellido') }}" required>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="email" class="form-label">Correo Electrónico</label>
+                <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
+            </div>
+            <div class="col-md-6">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input type="text" name="telefono" id="telefono" class="form-control" value="{{ old('telefono') }}">
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Correo Electrónico</label>
-            <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="fecha_contratacion" class="form-label">Fecha de Contratación</label>
+                <input type="date" name="fecha_contratacion" id="fecha_contratacion" class="form-control" value="{{ old('fecha_contratacion') }}" required>
+            </div>
+            <div class="col-md-6">
+                <label for="departamento_id" class="form-label">Departamento</label>
+                <select name="departamento_id" id="departamento_id" class="form-select" required>
+                    <option value="">Seleccionar</option>
+                    @foreach($departamentos as $departamento)
+                        <option value="{{ $departamento->id }}" {{ old('departamento_id') == $departamento->id ? 'selected' : '' }}>
+                            {{ $departamento->nombre }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="telefono" class="form-label">Teléfono</label>
-            <input type="text" name="telefono" id="telefono" class="form-control" value="{{ old('telefono') }}">
+
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label for="rol_id" class="form-label">Rol</label>
+                <select name="rol_id" id="rol_id" class="form-select" required>
+                    <option value="">Seleccionar</option>
+                    @foreach($roles as $rol)
+                        <option value="{{ $rol->id }}" {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
+                            {{ $rol->nombre }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="fecha_contratacion" class="form-label">Fecha de Contratación</label>
-            <input type="date" name="fecha_contratacion" id="fecha_contratacion" class="form-control" value="{{ old('fecha_contratacion') }}" required>
+
+        <div class="form-actions text-center">
+            <button type="submit" class="btn btn-submit">Guardar</button>
+            
+            <a href="{{ route('empleados.index') }}" class="btn btn-cancel">Cancelar</a>
         </div>
-        <div class="mb-3">
-            <label for="departamento_id" class="form-label">Departamento</label>
-            <select name="departamento_id" id="departamento_id" class="form-select" required>
-                <option value="">Seleccionar</option>
-                @foreach($departamentos as $departamento)
-                    <option value="{{ $departamento->id }}" {{ old('departamento_id') == $departamento->id ? 'selected' : '' }}>
-                        {{ $departamento->nombre }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="rol_id" class="form-label">Rol</label>
-            <select name="rol_id" id="rol_id" class="form-select" required>
-                <option value="">Seleccionar</option>
-                @foreach($roles as $rol)
-                    <option value="{{ $rol->id }}" {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
-                        {{ $rol->nombre }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a href="{{ route('empleados.index') }}" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 @endsection

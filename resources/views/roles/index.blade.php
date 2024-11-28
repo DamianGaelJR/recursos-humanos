@@ -32,7 +32,8 @@
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th>Acciones</th>
+                    <th>Descripción</th>
+                    <th>Accion</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,13 +42,14 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $rol->nombre }}</td>
+                        <td>{{ $rol->descripcion }}</td>
                         <td class="actions">
                             <a href="{{ route('roles.edit', $rol) }}" class="btn-custom btn-sm edit">Editar</a>
-                            <form action="{{ route('roles.destroy', $rol) }}" method="POST" style="display:inline;">
+                            <!--form action="{{ route('roles.destroy', $rol) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn-custom btn-sm delete" onclick="return confirm('¿Estás seguro?')">Eliminar</button>
-                            </form>
+                            </form-->
                         </td>
                     </tr>
                 @empty

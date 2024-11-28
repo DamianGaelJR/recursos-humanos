@@ -14,11 +14,10 @@ class EmpleadoController extends Controller
      */
     public function index(Request $request)
     {
-        // Obtener el valor y campo de búsqueda desde la petición
-        $campo = $request->input('campo', 'id'); // Por defecto, buscar por ID
-        $valor = $request->input('valor', ''); // Valor de búsqueda
+        
+        $campo = $request->input('campo', 'id'); 
+        $valor = $request->input('valor', '');
 
-        // Filtrar empleados según el campo de búsqueda
         $empleadosQuery = Empleado::with(['departamento', 'rol']);
         
         if ($valor) {
@@ -43,13 +42,11 @@ class EmpleadoController extends Controller
                     });
                     break;
                 default:
-                    // Si el campo no es válido, se busca por ID por defecto
                     $empleadosQuery->where('id', 'like', "%{$valor}%");
                     break;
             }
         }
 
-        // Obtener los empleados filtrados
         $empleados = $empleadosQuery->get();
 
         return view('empleados.index', compact('empleados'));

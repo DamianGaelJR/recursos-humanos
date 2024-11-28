@@ -36,7 +36,7 @@
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Descripción</th>
-                    <th>Acciones</th>
+                    <th>Accion</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,11 +47,11 @@
                         <td>{{ $departamento->descripcion }}</td>
                         <td class="actions">
                             <a href="{{ route('departamentos.edit', $departamento) }}" class="btn-custom btn-sm edit">Editar</a>
-                            <form action="{{ route('departamentos.destroy', $departamento) }}" method="POST" style="display:inline;">
+                            <!--form action="{{ route('departamentos.destroy', $departamento) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn-custom btn-sm delete" onclick="return confirm('¿Estás seguro?')">Eliminar</button>
-                            </form>
+                            </form-->
                         </td>
                     </tr>
                 @endforeach
