@@ -10,12 +10,48 @@ use Illuminate\Http\Request;
 class EmpleadoController extends Controller
 {
     /**
-     * Mostrar una lista de los empleados.
+     * Mostrar una lista de los empleados con la opción de búsqueda.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Obtener empleados con sus relaciones (departamento y rol)
-        $empleados = Empleado::with(['departamento', 'rol'])->get();
+        // Obtener el valor y campo de búsqueda desde la petición
+        $campo = $request->input('campo', 'id'); // Por defecto, buscar por ID
+        $valor = $request->input('valor', ''); // Valor de búsqueda
+
+        // Filtrar empleados según el campo de búsqueda
+        $empleadosQuery = Empleado::with(['departamento', 'rol']);
+        
+        if ($valor) {
+            switch ($campo) {
+                case 'id':
+                    $empleadosQuery->where('id', 'like', "%{$valor}%");
+                    break;
+                case 'nombre':
+                    $empleadosQuery->where(function($query) use ($valor) {
+                        $query->where('nombre', 'like', "%{$valor}%")
+                              ->orWhere('apellido', 'like', "%{$valor}%");
+                    });
+                    break;
+                case 'departamento':
+                    $empleadosQuery->whereHas('departamento', function($query) use ($valor) {
+                        $query->where('nombre', 'like', "%{$valor}%");
+                    });
+                    break;
+                case 'rol':
+                    $empleadosQuery->whereHas('rol', function($query) use ($valor) {
+                        $query->where('nombre', 'like', "%{$valor}%");
+                    });
+                    break;
+                default:
+                    // Si el campo no es válido, se busca por ID por defecto
+                    $empleadosQuery->where('id', 'like', "%{$valor}%");
+                    break;
+            }
+        }
+
+        // Obtener los empleados filtrados
+        $empleados = $empleadosQuery->get();
+
         return view('empleados.index', compact('empleados'));
     }
 
@@ -45,18 +81,11 @@ class EmpleadoController extends Controller
             'departamento_id' => 'required|exists:departamentos,id',
             'rol_id' => 'required|exists:roles,id',
         ]);
+
         Empleado::create($request->all());
 
         // Redireccionar con mensaje de éxito
         return redirect()->route('empleados.index')->with('success', 'Empleado agregado correctamente.');
-        /*
-        try {
-             //Crear el empleado
-            Empleado::create($request->all());
-            return redirect()->route('empleados.index')->with('success', 'Empleado creado exitosamente.');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Error al crear el empleado. Inténtalo nuevamente.');
-        }*/
     }
 
     /**

@@ -90,3 +90,24 @@
 .styled-table tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
 }
+/*-------------------nueos diseños-------------------*/
+/* Estilo para el formulario de búsqueda */
+form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Campo de texto */
+form .form-control {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Menú desplegable */
+form .form-select {
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}

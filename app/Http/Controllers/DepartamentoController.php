@@ -3,55 +3,81 @@
 namespace App\Http\Controllers;
 
 use App\Models\Departamento;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class DepartamentoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Mostrar una lista de los departamentos con la opción de búsqueda.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $departamentos = Departamento::all();
+        // Obtener el valor y campo de búsqueda desde la petición
+        $campo = $request->input('campo', 'id'); // Por defecto, buscar por ID
+        $valor = $request->input('valor', ''); // Valor de búsqueda
+
+        // Filtrar departamentos según el campo de búsqueda
+        $departamentosQuery = Departamento::query();
+        
+        if ($valor) {
+            switch ($campo) {
+                case 'id':
+                    $departamentosQuery->where('id', 'like', "%{$valor}%");
+                    break;
+                case 'nombre':
+                    $departamentosQuery->where('nombre', 'like', "%{$valor}%");
+                    break;
+                case 'descripcion':
+                    $departamentosQuery->where('descripcion', 'like', "%{$valor}%");
+                    break;
+                default:
+                    // Si el campo no es válido, se busca por ID por defecto
+                    $departamentosQuery->where('id', 'like', "%{$valor}%");
+                    break;
+            }
+        }
+
+        // Obtener los departamentos filtrados
+        $departamentos = $departamentosQuery->get();
+
         return view('departamentos.index', compact('departamentos'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Mostrar el formulario para crear un nuevo departamento.
      */
     public function create()
     {
-        //
         return view('departamentos.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Guardar un nuevo departamento en la base de datos.
      */
     public function store(Request $request)
     {
-        //
+        // Validar los datos del formulario
         $request->validate([
             'nombre' => 'required|string|max:100',
-            'descripcion' => 'nullable|string',
+            'descripcion' => 'nullable|string|max:255',
         ]);
 
         Departamento::create($request->all());
-        return redirect()->route('departamentos.index')->with('success', 'Departamento creado.');
+
+        // Redireccionar con mensaje de éxito
+        return redirect()->route('departamentos.index')->with('success', 'Departamento agregado correctamente.');
     }
 
     /**
-     * Display the specified resource.
+     * Mostrar los detalles de un departamento específico.
      */
     public function show(Departamento $departamento)
     {
-        //
+        return view('departamentos.show', compact('departamento'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Mostrar el formulario para editar un departamento existente.
      */
     public function edit(Departamento $departamento)
     {
@@ -59,25 +85,33 @@ class DepartamentoController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualizar un departamento en la base de datos.
      */
     public function update(Request $request, Departamento $departamento)
     {
+        // Validar los datos del formulario
         $request->validate([
             'nombre' => 'required|string|max:100',
-            'descripcion' => 'nullable|string',
+            'descripcion' => 'nullable|string|max:255',
         ]);
 
         $departamento->update($request->all());
-        return redirect()->route('departamentos.index')->with('success', 'Departamento actualizado.');
+
+        // Redireccionar con mensaje de éxito
+        return redirect()->route('departamentos.index')->with('success', 'Departamento actualizado exitosamente.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Eliminar un departamento de la base de datos.
      */
     public function destroy(Departamento $departamento)
     {
-        $departamento->delete();
-        return redirect()->route('departamentos.index')->with('success', 'Departamento eliminado.');
+        try {
+            // Eliminar el departamento
+            $departamento->delete();
+            return redirect()->route('departamentos.index')->with('success', 'Departamento eliminado exitosamente.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error al eliminar el departamento. Inténtalo nuevamente.');
+        }
     }
 }
