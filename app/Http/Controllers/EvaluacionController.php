@@ -41,7 +41,6 @@ class EvaluacionController extends Controller
 
         Evaluacion::create($request->all());
         return redirect()->route('evaluaciones.index')->with('success', 'Evaluación registrada.');
-
     }
 
     /**
@@ -66,8 +65,15 @@ class EvaluacionController extends Controller
      */
     public function update(Request $request, Evaluacion $evaluacion)
     {
-        return redirect()->route('evaluaciones.index')->with('success', 'Evaluación actualizada.');
+        $request->validate([
+            'fecha' => 'required|date',
+            'calificacion' => 'required|integer|between:1,5',
+            'comentarios' => 'nullable|string',
+        ]);
 
+        $evaluacion->update($request->all());
+
+        return redirect()->route('evaluaciones.index')->with('success', 'Evaluación actualizada exitosamente.');
     }
 
     /**
@@ -77,6 +83,5 @@ class EvaluacionController extends Controller
     {
         $evaluacion->delete();
         return redirect()->route('evaluaciones.index')->with('success', 'Evaluación eliminada.');
-
     }
 }

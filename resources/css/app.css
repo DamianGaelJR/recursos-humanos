@@ -1,36 +1,86 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* Centrar la tabla y aplicar estilos */
-.table-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+@import 'bootstrap/scss/bootstrap.scss';
+@import 'bootstrap-datepicker.scss';
+@import 'select2.scss';
+
+/* Contenedor principal */
+.container {
+    max-width: 900px;
+    margin: auto;
 }
 
+/* Botón personalizado */
+.btn-custom {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #FFFFFF;
+    background-color: #34495E; /* Azul mate oscuro */
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-custom:hover {
+    background-color: #2C3E50; /* Azul más oscuro */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-custom:active {
+    background-color: #1A252F; /* Azul muy oscuro */
+    transform: scale(0.95);
+}
+
+/* Botón pequeño */
+.btn-custom.btn-sm {
+    padding: 8px 15px;
+    font-size: 14px;
+}
+
+/* Tabla estilizada */
 .styled-table {
-    width: 80%;
+    width: 100%;
     border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 0.9em;
-    font-family: 'Arial', sans-serif;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
 }
 
 .styled-table thead tr {
-    background-color: #009879;
-    color: #ffffff;
-    text-align: center;
+    background-color: #34495E; /* Azul mate */
+    color: #FFFFFF;
+    text-align: left;
+    font-weight: bold;
 }
 
 .styled-table th, .styled-table td {
     padding: 12px 15px;
-    border: 1px solid #dddddd;
+    border: 1px solid #ddd;
 }
 
 .styled-table tbody tr {
-    border-bottom: 1px solid #dddddd;
-    text-align: center;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #f3f3f3;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+/*_______________________________hasta aqui__________________________________*/
+
+.table-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
 
 .styled-table tbody tr:nth-of-type(even) {
@@ -39,9 +89,4 @@
 
 .styled-table tbody tr:last-of-type {
     border-bottom: 2px solid #009879;
-}
-
-.styled-table tbody tr:hover {
-    background-color: #f1f1f1;
-    cursor: pointer;
 }

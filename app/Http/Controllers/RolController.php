@@ -50,25 +50,26 @@ class RolController extends Controller
     /**
      * Mostrar el formulario para editar un rol existente.
      */
-    public function edit(Rol $rol)
+    public function edit(Rol $role)
     {
-        return view('roles.edit', compact('rol'));
+        return view('roles.edit', compact('role'));
     }
 
     /**
      * Actualizar un rol existente en la base de datos.
      */
-    public function update(Request $request, Rol $rol)
-    {
-        $request->validate([
-            'nombre' => 'required|max:100|unique:roles,nombre,' . $rol->id,
-            'descripcion' => 'required|max:255',
-        ]);
+    public function update(Request $request, Rol $role)
+{
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        // Otras reglas de validación
+    ]);
 
-        $rol->update($request->all());
+    $role->update($request->all());
 
-        return redirect()->route('roles.index')->with('success', 'Rol actualizado exitosamente.');
-    }
+    return redirect()->route('roles.index')->with('success', 'Rol actualizado correctamente');
+}
+
 
     /**
      * Eliminar un rol de la base de datos.

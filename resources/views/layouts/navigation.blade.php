@@ -19,19 +19,19 @@
                     </x-nav-link>
 
                 -->
-                    <x-nav-link :href="route('empleados.create')" :active="request()->routeIs('empleados.create')">
+                    <x-nav-link :href="route('empleados.index')" :active="request()->routeIs('empleados.index')">
                         {{ __('Empleados') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('departamentos.create')" :active="request()->routeIs('departamentos.create')">
+                    <x-nav-link :href="route('departamentos.index')" :active="request()->routeIs('departamentos.index')">
                         {{ __('Departamentos') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('roles.create')" :active="request()->routeIs('roles.create')">
+                    <x-nav-link :href="route('roles.index')" :active="request()->routeIs('roles.index')">
                         {{ __('Roles') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('evaluaciones.create')" :active="request()->routeIs('evaluaciones.create')">
+                    <x-nav-link :href="route('evaluaciones.index')" :active="request()->routeIs('evaluaciones.index')">
                         {{ __('Evaluaciones') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('salarios.create')" :active="request()->routeIs('salarios.create')">
+                    <x-nav-link :href="route('salarios.index')" :active="request()->routeIs('salarios.index')">
                         {{ __('Salarios') }}
                     </x-nav-link>
                 </div>

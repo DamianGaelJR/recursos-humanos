@@ -43,7 +43,7 @@
                             <div class="form-group mb-3">
                                 <label for="calificacion" class="form-label">Calificación</label>
                                 <input type="number" name="calificacion" id="calificacion" class="form-control" value="{{ old('calificacion') }}" min="0" max="10" step="0.1" required>
-                                <small class="form-text text-muted">Calificación del 0 al 10</small>
+                                <small class="form-text text-muted">Calificación del 1 al 5</small>
                                 @error('calificacion')
                                     <small class="text-danger">{{ $message }}</small>
                                 @enderror

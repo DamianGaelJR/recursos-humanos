@@ -1,35 +1,50 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto mt-4">
-    <h1 class="text-2xl font-bold mb-4">Listado de Roles</h1>
-    
-    <!-- Aquí puedes añadir contenido para la lista de roles -->
-    <table class="table-auto w-full border-collapse border border-gray-300">
-        <thead>
-            <tr>
-                <th class="border border-gray-300 px-4 py-2">#</th>
-                <th class="border border-gray-300 px-4 py-2">Nombre</th>
-                <th class="border border-gray-300 px-4 py-2">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Aquí puedes iterar los roles desde el controlador -->
-            @foreach ($roles as $rol)
+<div class="container mt-5">
+    <h1 class="mb-4 text-center" style="font-weight: 600; color: #2C3E50;">Listado de Roles</h1>
+
+    @if(session('success'))
+        <div class="alert alert-success text-center mb-4">{{ session('success') }}</div>
+    @endif
+
+    <!-- Botón para agregar nuevo rol -->
+    <div class="text-end mb-4">
+        <a href="{{ route('roles.create') }}" class="btn-custom">Agregar Nuevo Rol</a>
+    </div>
+
+    <!-- Tabla estilizada de roles -->
+    <div class="table-container">
+        <table class="styled-table">
+            <thead>
                 <tr>
-                    <td class="border border-gray-300 px-4 py-2">{{ $loop->iteration }}</td>
-                    <td class="border border-gray-300 px-4 py-2">{{ $rol->nombre }}</td>
-                    <td class="border border-gray-300 px-4 py-2">
-                        <a href="{{ route('roles.edit', $rol) }}" class="text-blue-500 hover:underline">Editar</a>
-                        <form action="{{ route('roles.destroy', $rol) }}" method="POST" class="inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-500 hover:underline">Eliminar</button>
-                        </form>
-                    </td>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Acciones</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <!-- Iterar roles desde el controlador -->
+                @forelse ($roles as $rol)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $rol->nombre }}</td>
+                        <td class="actions">
+                            <a href="{{ route('roles.edit', $rol) }}" class="btn-custom btn-sm edit">Editar</a>
+                            <form action="{{ route('roles.destroy', $rol) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-custom btn-sm delete" onclick="return confirm('¿Estás seguro?')">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="3" class="text-muted text-center">No se encontraron roles.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 </div>
 @endsection
