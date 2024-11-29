@@ -13,44 +13,32 @@ class EmpleadoController extends Controller
      * Mostrar una lista de los empleados con la opción de búsqueda.
      */
     public function index(Request $request)
-    {
-        
-        $campo = $request->input('campo', 'id'); 
-        $valor = $request->input('valor', '');
+{
+    $query = Empleado::query();
 
-        $empleadosQuery = Empleado::with(['departamento', 'rol']);
-        
-        if ($valor) {
-            switch ($campo) {
-                case 'id':
-                    $empleadosQuery->where('id', 'like', "%{$valor}%");
-                    break;
-                case 'nombre':
-                    $empleadosQuery->where(function($query) use ($valor) {
-                        $query->where('nombre', 'like', "%{$valor}%")
-                              ->orWhere('apellido', 'like', "%{$valor}%");
-                    });
-                    break;
-                case 'departamento':
-                    $empleadosQuery->whereHas('departamento', function($query) use ($valor) {
-                        $query->where('nombre', 'like', "%{$valor}%");
-                    });
-                    break;
-                case 'rol':
-                    $empleadosQuery->whereHas('rol', function($query) use ($valor) {
-                        $query->where('nombre', 'like', "%{$valor}%");
-                    });
-                    break;
-                default:
-                    $empleadosQuery->where('id', 'like', "%{$valor}%");
-                    break;
-            }
+    // Filtros de búsqueda
+    if ($request->filled('campo') && $request->filled('valor')) {
+        $campo = $request->input('campo');
+        $valor = $request->input('valor');
+
+        if ($campo === 'departamento') {
+            $query->whereHas('departamento', function ($q) use ($valor) {
+                $q->where('nombre', 'like', "%$valor%");
+            });
+        } elseif ($campo === 'rol') {
+            $query->whereHas('rol', function ($q) use ($valor) {
+                $q->where('nombre', 'like', "%$valor%");
+            });
+        } else {
+            $query->where($campo, 'like', "%$valor%");
         }
-
-        $empleados = $empleadosQuery->get();
-
-        return view('empleados.index', compact('empleados'));
     }
+
+    $empleados = $query->with(['departamento', 'rol'])->paginate(10);
+
+    return view('empleados.index', compact('empleados'));
+}
+
 
     /**
      * Mostrar el formulario para crear un nuevo empleado.
@@ -75,9 +63,9 @@ class EmpleadoController extends Controller
             'email' => 'required|email|unique:empleados,email',
             'telefono' => 'nullable|string|max:15',
             'fecha_contratacion' => 'required|date',
-            'departamento_id' => 'required|exists:departamentos,id',
-            'rol_id' => 'required|exists:roles,id',
-        ]);
+            'id_departamento' => 'required|exists:departamentos,id', // Nota: id_departamento
+            'id_rol' => 'required|exists:roles,id',
+        ]);        
 
         Empleado::create($request->all());
 
@@ -118,10 +106,10 @@ class EmpleadoController extends Controller
             'email' => 'required|email|unique:empleados,email,' . $empleado->id,
             'telefono' => 'nullable|string|max:15',
             'fecha_contratacion' => 'required|date',
-            'departamento_id' => 'required|exists:departamentos,id',
-            'rol_id' => 'required|exists:roles,id',
+            'id_departamento' => 'required|exists:departamentos,id',
+            'id_rol' => 'required|exists:roles,id',
         ]);
-
+        
         try {
             // Actualizar el empleado
             $empleado->update($request->all());

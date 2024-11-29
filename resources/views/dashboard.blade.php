@@ -27,18 +27,7 @@
                     </div>
                 </div>
             </a>
-
-            <!-- Tarjeta: Editar 
-            <a href="{{ route('empleados.index') }}" class="card-container text-decoration-none">
-                <div class="card-image">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1350/1350731.png"
-                        alt="Editar Empleado">
-                    <div class="card-overlay">
-                        <h5>Editar Empleado</h5>
-                    </div>
-                </div>
-            </a>
-            Empleado -->
+            
         </div>
     </div>
 </div>
@@ -51,7 +40,7 @@
 
     /* Contenedor principal con imagen de fondo */
     .welcome-container {
-        background-image: url('https://practiaglobal.com.br/wp-content/uploads/2020/10/rh.jpg');
+        background-image: url('https://th.bing.com/th/id/R.7049f96a7ab04d4ffe56f6b7a180dd31?rik=KXuBl64z1lEW%2fw&riu=http%3a%2f%2fwww.solofondos.com%2fwp-content%2fuploads%2f2015%2f11%2fFondos-para-paginas-web-profesionales-3D.jpg&ehk=lWv3MXhrf5twGIElvqeFkf1879q3Y4fb8nZFCm8U5hQ%3d&risl=&pid=ImgRaw&r=0');
         background-size: cover;
         background-position: center;
         height: 100vh;

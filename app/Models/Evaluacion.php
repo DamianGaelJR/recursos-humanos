@@ -9,14 +9,12 @@ class Evaluacion extends Model
 {
     use HasFactory;
 
-    // Especificar el nombre correcto de la tabla si no sigue la convención
-    protected $table = 'evaluaciones';
+    protected $table = 'evaluaciones'; // Nombre de la tabla en la base de datos
 
-    // Campos que se pueden asignar de forma masiva
-    protected $fillable = ['id_empleado', 'fecha', 'calificacion', 'comentarios'];
+    protected $fillable = ['id_empleado', 'fecha', 'calificacion', 'comentarios']; // Campos asignables
 
     /**
-     * Relación con el modelo Empleado
+     * Relación con el modelo Empleado.
      * Una evaluación pertenece a un empleado.
      */
     public function empleado()

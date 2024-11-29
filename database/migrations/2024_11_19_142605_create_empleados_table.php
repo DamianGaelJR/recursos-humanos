@@ -18,16 +18,16 @@ class CreateEmpleadosTable extends Migration
             $table->string('email')->unique();
             $table->string('telefono')->nullable();
             $table->date('fecha_contratacion')->nullable();
-            
+
             // Relaciones con otras tablas
             $table->foreignId('id_departamento')
-                  ->constrained('departamentos')
-                  ->onDelete('cascade');
-            
+                ->constrained('departamentos')
+                ->onDelete('cascade');
+
             $table->foreignId('id_rol')
-                  ->constrained('roles')
-                  ->onDelete('cascade');
-            
+                ->constrained('roles')
+                ->onDelete('cascade');
+
             $table->timestamps(); // Para created_at y updated_at
         });
     }

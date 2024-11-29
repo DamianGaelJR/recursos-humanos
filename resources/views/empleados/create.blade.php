@@ -7,13 +7,13 @@
     <h1 class="mb-4 text-center" style="font-weight: 600; color: #2C3E50;">Agregar Empleado</h1>
 
     @if($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
     @endif
 
     <form action="{{ route('empleados.store') }}" method="POST" class="form-container p-4 bg-light rounded shadow-sm">
@@ -48,26 +48,27 @@
             </div>
             <div class="col-md-6">
                 <label for="departamento_id" class="form-label">Departamento</label>
-                <select name="departamento_id" id="departamento_id" class="form-select" required>
+                <select name="id_departamento" id="id_departamento" class="form-select" required>
                     <option value="">Seleccionar</option>
                     @foreach($departamentos as $departamento)
-                        <option value="{{ $departamento->id }}" {{ old('departamento_id') == $departamento->id ? 'selected' : '' }}>
-                            {{ $departamento->nombre }}
-                        </option>
+                    <option value="{{ $departamento->id }}" {{ old('id_departamento') == $departamento->id ? 'selected' : '' }}>
+                        {{ $departamento->nombre }}
+                    </option>
                     @endforeach
                 </select>
+
             </div>
         </div>
 
         <div class="row mb-3">
             <div class="col-md-12">
-                <label for="rol_id" class="form-label">Rol</label>
-                <select name="rol_id" id="rol_id" class="form-select" required>
-                    <option value="">Seleccionar</option>
+                <label for="id_rol" class="form-label">Rol</label>
+                <select name="id_rol" id="id_rol" class="form-select" required>
+                <option value="">Seleccionar</option>
                     @foreach($roles as $rol)
-                        <option value="{{ $rol->id }}" {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
-                            {{ $rol->nombre }}
-                        </option>
+                    <option value="{{ $rol->id }}" {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
+                        {{ $rol->nombre }}
+                    </option>
                     @endforeach
                 </select>
             </div>
@@ -75,7 +76,7 @@
 
         <div class="form-actions text-center">
             <button type="submit" class="btn btn-submit">Guardar</button>
-            
+
             <a href="{{ route('empleados.index') }}" class="btn btn-cancel">Cancelar</a>
         </div>
     </form>
