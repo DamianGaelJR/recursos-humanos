@@ -23,7 +23,6 @@ class EvaluacionController extends Controller
 
     public function store(Request $request)
     {
-        // Validar los datos del formulario
         $request->validate([
             'id_empleado' => 'required|exists:empleados,id',
             'fecha' => 'required|date',
@@ -32,7 +31,7 @@ class EvaluacionController extends Controller
         ]);
 
         try {
-            Evaluacion::create($request->all()); // Crear nueva evaluación
+            Evaluacion::create($request->all());
             return redirect()->route('evaluaciones.index')->with('success', 'Evaluación registrada exitosamente.');
         } catch (\Exception $e) {
             return redirect()->route('evaluaciones.index')->with('error', 'Error al registrar la evaluación.');
@@ -47,7 +46,6 @@ class EvaluacionController extends Controller
 
     public function update(Request $request, Evaluacion $evaluacion)
     {
-        // Validar datos
         $request->validate([
             'fecha' => 'required|date',
             'calificacion' => 'required|integer|between:1,5',
@@ -55,7 +53,7 @@ class EvaluacionController extends Controller
         ]);
 
         try {
-            $evaluacion->update($request->all()); // Actualizar evaluación
+            $evaluacion->update($request->all());
             return redirect()->route('evaluaciones.index')->with('success', 'Evaluación actualizada exitosamente.');
         } catch (\Exception $e) {
             return redirect()->route('evaluaciones.index')->with('error', 'Error al actualizar la evaluación.');
@@ -65,7 +63,7 @@ class EvaluacionController extends Controller
     public function destroy(Evaluacion $evaluacion)
     {
         try {
-            $evaluacion->delete(); // Eliminar evaluación
+            $evaluacion->delete();
             return redirect()->route('evaluaciones.index')->with('success', 'Evaluación eliminada exitosamente.');
         } catch (\Exception $e) {
             return redirect()->route('evaluaciones.index')->with('error', 'Error al eliminar la evaluación.');

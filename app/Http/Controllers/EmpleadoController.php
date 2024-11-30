@@ -13,31 +13,31 @@ class EmpleadoController extends Controller
      * Mostrar una lista de los empleados con la opción de búsqueda.
      */
     public function index(Request $request)
-{
-    $query = Empleado::query();
+    {
+        $query = Empleado::query();
 
-    // Filtros de búsqueda
-    if ($request->filled('campo') && $request->filled('valor')) {
-        $campo = $request->input('campo');
-        $valor = $request->input('valor');
+        // Filtros de búsqueda
+        if ($request->filled('campo') && $request->filled('valor')) {
+            $campo = $request->input('campo');
+            $valor = $request->input('valor');
 
-        if ($campo === 'departamento') {
-            $query->whereHas('departamento', function ($q) use ($valor) {
-                $q->where('nombre', 'like', "%$valor%");
-            });
-        } elseif ($campo === 'rol') {
-            $query->whereHas('rol', function ($q) use ($valor) {
-                $q->where('nombre', 'like', "%$valor%");
-            });
-        } else {
-            $query->where($campo, 'like', "%$valor%");
+            if ($campo === 'departamento') {
+                $query->whereHas('departamento', function ($q) use ($valor) {
+                    $q->where('nombre', 'like', "%$valor%");
+                });
+            } elseif ($campo === 'rol') {
+                $query->whereHas('rol', function ($q) use ($valor) {
+                    $q->where('nombre', 'like', "%$valor%");
+                });
+            } else {
+                $query->where($campo, 'like', "%$valor%");
+            }
         }
+
+        $empleados = $query->with(['departamento', 'rol'])->paginate(10);
+
+        return view('empleados.index', compact('empleados'));
     }
-
-    $empleados = $query->with(['departamento', 'rol'])->paginate(10);
-
-    return view('empleados.index', compact('empleados'));
-}
 
 
     /**
@@ -56,22 +56,28 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los datos del formulario
         $request->validate([
-            'nombre' => 'required|string|max:100',
-            'apellido' => 'required|string|max:100',
-            'email' => 'required|email|unique:empleados,email',
-            'telefono' => 'nullable|string|max:15',
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'email' => 'required|email|unique:empleados,email', // Validar formato de email y que sea único
+            'telefono' => 'required|regex:/^\d{10}$/', // Validar solo 10 dígitos
             'fecha_contratacion' => 'required|date',
-            'id_departamento' => 'required|exists:departamentos,id', // Nota: id_departamento
+            'id_departamento' => 'required|exists:departamentos,id',
             'id_rol' => 'required|exists:roles,id',
-        ]);        
+        ], [
+            'email.required' => 'El campo de correo electrónico es obligatorio.',
+            'email.email' => 'El correo electrónico no tiene un formato válido.',
+            'email.unique' => 'El correo electrónico ya está registrado.',
+            'telefono.required' => 'El campo de teléfono es obligatorio.',
+            'telefono.regex' => 'El número de teléfono debe contener exactamente 10 dígitos.',
+        ]);
 
+        // Crear el empleado
         Empleado::create($request->all());
 
-        // Redireccionar con mensaje de éxito
-        return redirect()->route('empleados.index')->with('success', 'Empleado agregado correctamente.');
+        return redirect()->route('empleados.index')->with('success', 'Empleado agregado con éxito.');
     }
+
 
     /**
      * Mostrar los detalles de un empleado específico.
@@ -109,7 +115,7 @@ class EmpleadoController extends Controller
             'id_departamento' => 'required|exists:departamentos,id',
             'id_rol' => 'required|exists:roles,id',
         ]);
-        
+
         try {
             // Actualizar el empleado
             $empleado->update($request->all());

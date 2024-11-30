@@ -9,8 +9,7 @@ class Evaluacion extends Model
 {
     use HasFactory;
 
-    protected $table = 'evaluaciones'; // Nombre de la tabla en la base de datos
-
+    protected $table = 'evaluaciones'; // Nombre de la tabla
     protected $fillable = ['id_empleado', 'fecha', 'calificacion', 'comentarios']; // Campos asignables
 
     /**

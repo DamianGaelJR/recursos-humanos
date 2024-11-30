@@ -17,68 +17,83 @@
     @endif
 
     <form action="{{ route('empleados.store') }}" method="POST" class="form-container p-4 bg-light rounded shadow-sm">
-        @csrf
+    @csrf
 
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" name="nombre" id="nombre" class="form-control" value="{{ old('nombre') }}" required>
-            </div>
-            <div class="col-md-6">
-                <label for="apellido" class="form-label">Apellido</label>
-                <input type="text" name="apellido" id="apellido" class="form-control" value="{{ old('apellido') }}" required>
-            </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" name="nombre" id="nombre" class="form-control" value="{{ old('nombre') }}" required>
         </div>
-
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="email" class="form-label">Correo Electrónico</label>
-                <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
-            </div>
-            <div class="col-md-6">
-                <label for="telefono" class="form-label">Teléfono</label>
-                <input type="text" name="telefono" id="telefono" class="form-control" value="{{ old('telefono') }}">
-            </div>
+        <div class="col-md-6">
+            <label for="apellido" class="form-label">Apellido</label>
+            <input type="text" name="apellido" id="apellido" class="form-control" value="{{ old('apellido') }}" required>
         </div>
+    </div>
 
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <label for="fecha_contratacion" class="form-label">Fecha de Contratación</label>
-                <input type="date" name="fecha_contratacion" id="fecha_contratacion" class="form-control" value="{{ old('fecha_contratacion') }}" required>
-            </div>
-            <div class="col-md-6">
-                <label for="departamento_id" class="form-label">Departamento</label>
-                <select name="id_departamento" id="id_departamento" class="form-select" required>
-                    <option value="">Seleccionar</option>
-                    @foreach($departamentos as $departamento)
-                    <option value="{{ $departamento->id }}" {{ old('id_departamento') == $departamento->id ? 'selected' : '' }}>
-                        {{ $departamento->nombre }}
-                    </option>
-                    @endforeach
-                </select>
-
-            </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="email" class="form-label">Correo Electrónico</label>
+            <input 
+                type="email" 
+                name="email" 
+                id="email" 
+                class="form-control" 
+                value="{{ old('email') }}" 
+                required 
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+                title="Por favor, introduce un correo electrónico válido.">
         </div>
+        <div class="col-md-6">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input 
+                type="text" 
+                name="telefono" 
+                id="telefono" 
+                class="form-control" 
+                value="{{ old('telefono') }}" 
+                required 
+                pattern="\d{10}" 
+                title="El número de teléfono debe contener exactamente 10 dígitos.">
+        </div>
+    </div>
 
-        <div class="row mb-3">
-            <div class="col-md-12">
-                <label for="id_rol" class="form-label">Rol</label>
-                <select name="id_rol" id="id_rol" class="form-select" required>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label for="fecha_contratacion" class="form-label">Fecha de Contratación</label>
+            <input type="date" name="fecha_contratacion" id="fecha_contratacion" class="form-control" value="{{ old('fecha_contratacion') }}" required>
+        </div>
+        <div class="col-md-6">
+            <label for="departamento_id" class="form-label">Departamento</label>
+            <select name="id_departamento" id="id_departamento" class="form-select" required>
                 <option value="">Seleccionar</option>
-                    @foreach($roles as $rol)
-                    <option value="{{ $rol->id }}" {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
-                        {{ $rol->nombre }}
-                    </option>
-                    @endforeach
-                </select>
-            </div>
+                @foreach($departamentos as $departamento)
+                <option value="{{ $departamento->id }}" {{ old('id_departamento') == $departamento->id ? 'selected' : '' }}>
+                    {{ $departamento->nombre }}
+                </option>
+                @endforeach
+            </select>
         </div>
+    </div>
 
-        <div class="form-actions text-center">
-            <button type="submit" class="btn btn-submit">Guardar</button>
-
-            <a href="{{ route('empleados.index') }}" class="btn btn-cancel">Cancelar</a>
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <label for="id_rol" class="form-label">Rol</label>
+            <select name="id_rol" id="id_rol" class="form-select" required>
+                <option value="">Seleccionar</option>
+                @foreach($roles as $rol)
+                <option value="{{ $rol->id }}" {{ old('rol_id') == $rol->id ? 'selected' : '' }}>
+                    {{ $rol->nombre }}
+                </option>
+                @endforeach
+            </select>
         </div>
-    </form>
+    </div>
+
+    <div class="form-actions text-center">
+        <button type="submit" class="btn btn-submit">Guardar</button>
+        <a href="{{ route('empleados.index') }}" class="btn btn-cancel">Cancelar</a>
+    </div>
+</form>
+
 </div>
 @endsection

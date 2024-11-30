@@ -180,3 +180,26 @@ form .form-select {
             margin-bottom: 20px;
         }
     }
+    /*----------------------------bara de navegacion-----------------------------*/
+    .nav-button {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 500;
+        background-color: #e6f1f8; /* Azul mate que coincide con la barra */
+        color: #1c4e80; /* Azul oscuro */
+        transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .nav-button:hover {
+        transform: translateY(-6px); /* Efecto de elevación más notorio */
+        background-color: #d0e7f4; /* Azul más claro */
+        color: #163b5d; /* Azul más oscuro */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más intensa */
+    }
+    
+    .nav-button:active {
+        transform: translateY(-2px); /* Reduce un poco la elevación al hacer clic */
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Sombra más suave al presionar */
+    }
+    

@@ -1,33 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Bienvenido')
+@section('title', 'Bienvenido a Recursos Humanos')
 
 @section('content')
 <div class="welcome-container">
     <div class="content-overlay">
-        <div class="d-flex justify-content-center align-items-center flex-wrap gap-4">
-            <!-- Tarjeta: Agregar Empleado -->
-            <a href="{{ route('empleados.create') }}" class="card-container text-decoration-none">
-                <div class="card-image">
-                    <img src="https://th.bing.com/th/id/OIP.o5wooEZBaKg3Mbg1WH9daQHaDt?w=329&h=174&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-                        alt="Agregar Empleado">
-                    <div class="card-overlay">
-                        <h5>Agregar Empleado</h5>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Tarjeta: Dar de Baja -->
-            <a href="{{ route('empleados.index') }}" class="card-container text-decoration-none">
-                <div class="card-image">
-                    <img src="https://th.bing.com/th/id/OIP.C37EUjTF_2ITxq2jH8oyyQHaHa?rs=1&pid=ImgDetMain"
-                        alt="Dar de Baja">
-                    <div class="card-overlay">
-                        <h5>Dar de Baja</h5>
-                    </div>
-                </div>
-            </a>
-            
+        <div class="text-center">
+            <h1 style="font-size: 3rem; font-weight: bold; color: #f5f5f5;">Bienvenido a Recursos Humanos</h1>
+            <p style="font-size: 1.5rem; font-style: italic; color: #f5f5f5; margin-top: 20px;">
+                "El éxito no se logra solo, sino trabajando juntos con pasión y dedicación."
+            </p>
         </div>
     </div>
 </div>
@@ -57,73 +39,23 @@
         padding: 20px;
     }
 
-    /* Estilo de las tarjetas */
-    .card-container {
-        position: relative;
-        width: 300px;
-        height: 200px;
-        overflow: hidden;
-        border-radius: 10px;
-        transition: transform 0.3s ease-in-out;
+    /* Texto del título y frase */
+    .text-center h1 {
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
     }
 
-    .card-container:hover {
-        transform: scale(1.05);
-    }
-
-    .card-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 10px;
-        transition: opacity 0.3s ease-in-out;
-    }
-
-    .card-container:hover .card-image img {
-        opacity: 0.7;
-    }
-
-    /* Superposición y sombra */
-    .card-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        border-radius: 10px;
-        transition: opacity 0.3s ease-in-out;
-    }
-
-    .card-container:hover .card-overlay {
-        opacity: 1;
-    }
-
-    .card-overlay h5 {
-        color: white;
-        font-size: 1.5rem;
-        font-weight: bold;
-        text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.7);
-    }
-
-    /* Flexbox para alinear horizontalmente */
-    .d-flex {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: flex-start;
-        flex-wrap: wrap;
-        gap: 20px;
+    .text-center p {
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
     }
 
     /* Ajuste responsivo */
     @media (max-width: 768px) {
-        .card-container {
-            width: 100%;
-            max-width: 300px;
+        .text-center h1 {
+            font-size: 2rem;
+        }
+
+        .text-center p {
+            font-size: 1.2rem;
         }
     }
 </style>
